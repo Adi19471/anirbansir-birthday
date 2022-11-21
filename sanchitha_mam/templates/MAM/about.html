@@ -1,0 +1,133 @@
+{% include 'MAM/base.html' %} {% load static %} {% block content %}
+
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Montserrat');
+    .container {
+        height: 30hv;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(45deg, black, cyan);
+    }
+    
+    .container p {
+        font-size: 3rem;
+        padding: 0.5rem;
+        font-weight: bold;
+        letter-spacing: 0.1rem;
+        text-align: center;
+        overflow: hidden;
+    }
+    
+    .container p span.typed-text {
+        font-weight: normal;
+        color: #dd7732;
+    }
+    
+    .container p span.cursor {
+        display: inline-block;
+        background-color: #ccc;
+        margin-left: 0.1rem;
+        width: 3px;
+        animation: blink 1s infinite;
+    }
+    
+    .container p span.cursor.typing {
+        animation: none;
+    }
+    
+    @keyframes blink {
+        0% {
+            background-color: rgb(65, 10, 10);
+        }
+        49% {
+            background-color: rgb(11, 12, 80);
+        }
+        50% {
+            background-color: transparent;
+        }
+        99% {
+            background-color: transparent;
+        }
+        100% {
+            background-color: rgb(17, 38, 3);
+        }
+    }
+</style>
+<center>
+    <div class="card mb-3 mt-5 bg-dark" style="max-width: 840px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{% static 'images/message.jpg' %}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">My Trinner</h5>
+                    <h5 class="card-text text-muted"><pre>
+
+            Happy Birthday Anirabn Sir 
+You're more than a sports teacher to me. ...
+You tirelessly strive for greatness. ...
+You're going to need some exercise today. ...
+Hard work really does pay off. ...
+You always put the team first. ...
+You give me the strength to reach my goals. ...
+I'll carry your lessons with me always. ...
+Your lessons can be applied to everything.
+          </pre></h5>
+                    <button class="btn btn-outline-secondary"> <p class="card-text"><dt class="text-danger"><a href="{% url 'sir' %}">leraning.....</a></dt></p></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</center>
+
+
+<div class="container">
+    <p>Wish You <span class="typed-text"></span><span class="cursor">&nbsp;</span></p>
+    <small>-Adi</small>
+</div>
+
+
+<script>
+    const typedTextSpan = document.querySelector(".typed-text");
+    const cursorSpan = document.querySelector(".cursor");
+
+    const textArray = ["Many", "More", "Happy", "Returns", "Of", "The Day"];
+    const typingDelay = 300;
+    const erasingDelay = 50;
+    const newTextDelay = 100; // Delay between current and next text
+    let textArrayIndex = 0;
+    let charIndex = 0;
+
+    function type() {
+        if (charIndex < textArray[textArrayIndex].length) {
+            if (!cursorSpan.classList.contains("typing")) cursorSpan.classList.add("typing");
+            typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
+            charIndex++;
+            setTimeout(type, typingDelay);
+        } else {
+            cursorSpan.classList.remove("typing");
+            setTimeout(erase, newTextDelay);
+        }
+    }
+
+    function erase() {
+        if (charIndex > 0) {
+            if (!cursorSpan.classList.contains("typing")) cursorSpan.classList.add("typing");
+            typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
+            charIndex--;
+            setTimeout(erase, erasingDelay);
+        } else {
+            cursorSpan.classList.remove("typing");
+            textArrayIndex++;
+            if (textArrayIndex >= textArray.length) textArrayIndex = 0;
+            setTimeout(type, typingDelay + 1100);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() { // On DOM Load initiate the effect
+        if (textArray.length) setTimeout(type, newTextDelay + 250);
+    });
+</script>
+{% endblock content %}
